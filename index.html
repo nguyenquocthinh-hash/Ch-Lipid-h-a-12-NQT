@@ -1,0 +1,2450 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LIPID PIRATES - Hóa 12</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+html,body{
+    margin:0;
+    padding:0;
+    width:100%;
+    min-height:100%;
+    font-family:Arial,Helvetica,sans-serif;
+    overflow-x:hidden;
+}
+
+body{
+    background:
+        linear-gradient(
+            to bottom,
+            #72d5ff 0%,
+            #bdefff 42%,
+            #38bce8 43%,
+            #087cb8 100%
+        );
+    color:#102a43;
+}
+
+/* =========================
+   SKY
+========================= */
+
+.sky{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+    z-index:-2;
+}
+
+.sun{
+    position:absolute;
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    background:#fff1a8;
+    box-shadow:0 0 50px #fff5b8;
+    top:40px;
+    right:8%;
+}
+
+.cloud{
+    position:absolute;
+    background:white;
+    border-radius:100px;
+    opacity:.8;
+    filter:blur(.5px);
+}
+
+.cloud:before,
+.cloud:after{
+    content:"";
+    position:absolute;
+    background:white;
+    border-radius:50%;
+}
+
+.cloud1{
+    width:180px;
+    height:45px;
+    top:100px;
+    left:7%;
+}
+
+.cloud1:before{
+    width:70px;
+    height:70px;
+    left:25px;
+    top:-30px;
+}
+
+.cloud1:after{
+    width:80px;
+    height:80px;
+    right:25px;
+    top:-38px;
+}
+
+.cloud2{
+    width:230px;
+    height:55px;
+    top:180px;
+    right:12%;
+}
+
+.cloud2:before{
+    width:80px;
+    height:80px;
+    left:40px;
+    top:-40px;
+}
+
+.cloud2:after{
+    width:95px;
+    height:95px;
+    right:40px;
+    top:-45px;
+}
+
+/* =========================
+   WAVES
+========================= */
+
+.wave{
+    position:fixed;
+    left:-5%;
+    width:110%;
+    border-radius:50%;
+    pointer-events:none;
+    z-index:-1;
+}
+
+.wave1{
+    height:100px;
+    bottom:18%;
+    background:#20a9d5;
+    transform:rotate(-2deg);
+}
+
+.wave2{
+    height:130px;
+    bottom:8%;
+    background:#0785bd;
+    transform:rotate(2deg);
+}
+
+.wave3{
+    height:120px;
+    bottom:-5%;
+    background:#05699d;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.container{
+    width:min(1200px,94%);
+    margin:auto;
+    padding:25px 0 50px;
+}
+
+.header{
+    text-align:center;
+    margin-bottom:18px;
+}
+
+.logo{
+    font-size:clamp(30px,6vw,64px);
+    font-weight:1000;
+    color:#fff;
+    text-shadow:
+        4px 4px 0 #073b63,
+        0 0 20px rgba(255,255,255,.5);
+    letter-spacing:2px;
+}
+
+.subtitle{
+    display:inline-block;
+    margin-top:5px;
+    background:#fff;
+    color:#073b63;
+    padding:8px 18px;
+    border-radius:30px;
+    font-weight:900;
+    box-shadow:0 5px 15px rgba(0,0,0,.2);
+}
+
+/* =========================
+   PANELS
+========================= */
+
+.panel{
+    background:rgba(255,255,255,.94);
+    border:4px solid #073b63;
+    border-radius:25px;
+    box-shadow:
+        0 12px 0 rgba(3,52,82,.25),
+        0 15px 35px rgba(0,0,0,.2);
+}
+
+.start{
+    max-width:850px;
+    margin:25px auto;
+    padding:30px;
+    text-align:center;
+}
+
+.start h2{
+    margin-top:0;
+    font-size:clamp(24px,5vw,40px);
+    color:#073b63;
+}
+
+.start p{
+    font-size:18px;
+    line-height:1.6;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.buttons{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-top:25px;
+}
+
+.btn{
+    border:3px solid #073b63;
+    background:#ffd34e;
+    color:#073b63;
+    font-size:18px;
+    font-weight:1000;
+    padding:14px 22px;
+    border-radius:18px;
+    cursor:pointer;
+    box-shadow:0 6px 0 #b78300;
+    transition:.15s;
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+    filter:brightness(1.05);
+}
+
+.btn:active{
+    transform:translateY(4px);
+    box-shadow:0 2px 0 #b78300;
+}
+
+.btn.green{
+    background:#65df8a;
+    box-shadow:0 6px 0 #2b8a4b;
+}
+
+.btn.red{
+    background:#ff7777;
+    box-shadow:0 6px 0 #a93636;
+}
+
+.btn.blue{
+    background:#72cfff;
+    box-shadow:0 6px 0 #2879a5;
+}
+
+.hidden{
+    display:none !important;
+}
+
+/* =========================
+   GAME
+========================= */
+
+.game{
+    margin-top:20px;
+}
+
+.status{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+    margin-bottom:20px;
+}
+
+.statusBox{
+    background:rgba(255,255,255,.95);
+    border:4px solid #073b63;
+    border-radius:20px;
+    padding:15px;
+    box-shadow:0 8px 0 rgba(0,0,0,.15);
+}
+
+.statusTitle{
+    display:flex;
+    justify-content:space-between;
+    font-weight:1000;
+    font-size:18px;
+    margin-bottom:8px;
+}
+
+.hpBar{
+    height:25px;
+    background:#ddd;
+    border:3px solid #073b63;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.hpFill{
+    height:100%;
+    width:100%;
+    background:#44d36d;
+    transition:width .5s ease;
+}
+
+.enemyFill{
+    background:#ff5555;
+}
+
+/* =========================
+   ARENA
+========================= */
+
+.arena{
+    position:relative;
+    min-height:285px;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255,255,255,.35),
+            rgba(0,125,190,.2)
+        );
+    border:4px solid #073b63;
+    border-radius:25px;
+    overflow:hidden;
+    margin-bottom:20px;
+}
+
+.ship{
+    position:absolute;
+    top:55px;
+    width:230px;
+    transition:.3s;
+}
+
+.ship.player{
+    left:4%;
+}
+
+.ship.enemy{
+    right:4%;
+    transform:scaleX(-1);
+}
+
+.shipBody{
+    position:relative;
+    width:190px;
+    height:75px;
+    margin:auto;
+    background:#8d542f;
+    border:5px solid #472614;
+    border-radius:15px 15px 55px 55px;
+    box-shadow:0 15px 0 rgba(0,0,0,.15);
+}
+
+.shipDeck{
+    position:absolute;
+    left:25px;
+    top:-20px;
+    width:140px;
+    height:25px;
+    background:#b8753d;
+    border:4px solid #472614;
+    border-radius:8px;
+}
+
+.mast{
+    position:absolute;
+    width:9px;
+    height:130px;
+    background:#472614;
+    left:90px;
+    top:-115px;
+}
+
+.flag{
+    position:absolute;
+    left:95px;
+    top:-110px;
+    width:75px;
+    height:45px;
+    background:#151515;
+    clip-path:polygon(0 0,100% 0,75% 50%,100% 100%,0 100%);
+}
+
+.flag:after{
+    content:"☠";
+    color:white;
+    position:absolute;
+    left:17px;
+    top:5px;
+    font-size:27px;
+}
+
+.sail{
+    position:absolute;
+    left:100px;
+    top:-90px;
+    width:85px;
+    height:95px;
+    background:#fff7dd;
+    border:4px solid #69401e;
+    clip-path:polygon(0 0,100% 10%,80% 100%,0 90%);
+}
+
+.cannon{
+    position:absolute;
+    width:55px;
+    height:20px;
+    background:#222;
+    border:4px solid #111;
+    border-radius:15px;
+    right:-18px;
+    top:32px;
+}
+
+.player .cannon{
+    right:-20px;
+}
+
+.enemy .cannon{
+    right:-20px;
+}
+
+.oceanFoam{
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:50px;
+    background:
+        repeating-linear-gradient(
+            -10deg,
+            transparent 0 20px,
+            rgba(255,255,255,.45) 21px 25px
+        );
+}
+
+/* =========================
+   QUESTION
+========================= */
+
+.questionPanel{
+    padding:25px;
+}
+
+.questionNumber{
+    text-align:center;
+    font-weight:1000;
+    color:#12618d;
+    margin-bottom:10px;
+}
+
+.question{
+    text-align:center;
+    font-size:clamp(20px,3vw,28px);
+    font-weight:1000;
+    line-height:1.4;
+    color:#082f49;
+    margin-bottom:22px;
+}
+
+.answers{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.answer{
+    border:3px solid #073b63;
+    border-radius:16px;
+    background:#f8fcff;
+    padding:16px;
+    text-align:left;
+    font-size:17px;
+    font-weight:800;
+    cursor:pointer;
+    transition:.15s;
+}
+
+.answer:hover{
+    background:#dff5ff;
+    transform:translateY(-2px);
+}
+
+.answer.correct{
+    background:#79e59a;
+    border-color:#26733c;
+}
+
+.answer.wrong{
+    background:#ff8585;
+    border-color:#a32d2d;
+}
+
+.answer.disabled{
+    cursor:default;
+    pointer-events:none;
+}
+
+.explain{
+    margin-top:20px;
+    background:#fff8cf;
+    border:3px solid #9c7800;
+    border-radius:16px;
+    padding:18px;
+    line-height:1.6;
+    font-size:17px;
+}
+
+.explainTitle{
+    font-size:21px;
+    font-weight:1000;
+    margin-bottom:8px;
+}
+
+.nextArea{
+    text-align:center;
+    margin-top:18px;
+}
+
+.nextBtn{
+    background:#55d8ff;
+    box-shadow:0 6px 0 #237a99;
+}
+
+/* =========================
+   RESULT
+========================= */
+
+.result{
+    max-width:800px;
+    margin:30px auto;
+    padding:35px;
+    text-align:center;
+}
+
+.resultTitle{
+    font-size:clamp(35px,7vw,60px);
+    font-weight:1000;
+}
+
+.resultText{
+    font-size:21px;
+    line-height:1.7;
+}
+
+.score{
+    font-size:40px;
+    font-weight:1000;
+    color:#12618d;
+}
+
+/* =========================
+   EFFECTS
+========================= */
+
+.cannonball{
+    position:absolute;
+    width:18px;
+    height:18px;
+    background:#151515;
+    border-radius:50%;
+    z-index:20;
+    box-shadow:0 0 10px rgba(0,0,0,.5);
+}
+
+.explosion{
+    position:absolute;
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:
+        radial-gradient(
+            circle,
+            #fff 0 12%,
+            #ffd43b 13% 35%,
+            #ff7b00 36% 60%,
+            #ff3c00 61% 100%
+        );
+    z-index:30;
+    animation:boom .5s ease-out forwards;
+}
+
+@keyframes boom{
+    0%{
+        transform:scale(.2);
+        opacity:1;
+    }
+    100%{
+        transform:scale(1.8);
+        opacity:0;
+    }
+}
+
+.shake{
+    animation:shake .4s ease;
+}
+
+@keyframes shake{
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-12px)}
+    40%{transform:translateX(12px)}
+    60%{transform:translateX(-9px)}
+    80%{transform:translateX(9px)}
+}
+
+.confetti{
+    position:fixed;
+    width:10px;
+    height:18px;
+    top:-20px;
+    z-index:9999;
+    animation:fall 2.5s linear forwards;
+}
+
+@keyframes fall{
+    to{
+        transform:
+            translateY(110vh)
+            rotate(720deg);
+    }
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+    text-align:center;
+    color:white;
+    font-weight:700;
+    margin-top:25px;
+    text-shadow:0 2px 3px rgba(0,0,0,.4);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
+
+    .container{
+        width:95%;
+        padding-top:15px;
+    }
+
+    .status{
+        grid-template-columns:1fr;
+        gap:10px;
+    }
+
+    .answers{
+        grid-template-columns:1fr;
+    }
+
+    .arena{
+        min-height:250px;
+    }
+
+    .ship{
+        width:150px;
+        transform:scale(.72);
+        transform-origin:center;
+    }
+
+    .ship.enemy{
+        transform:scaleX(-1) scale(.72);
+    }
+
+    .ship.player{
+        left:-15px;
+    }
+
+    .ship.enemy{
+        right:-15px;
+    }
+
+    .questionPanel{
+        padding:17px;
+    }
+
+    .start{
+        padding:20px;
+    }
+
+    .btn{
+        width:100%;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     BACKGROUND
+========================= -->
+
+<div class="sky">
+
+    <div class="sun"></div>
+
+    <div class="cloud cloud1"></div>
+
+    <div class="cloud cloud2"></div>
+
+</div>
+
+<div class="wave wave1"></div>
+<div class="wave wave2"></div>
+<div class="wave wave3"></div>
+
+
+<!-- =========================
+     YOUTUBE MUSIC
+========================= -->
+
+<iframe
+    id="musicPlayer"
+    src="https://www.youtube.com/embed/RWADynlMHZw?enablejsapi=1&playsinline=1&controls=0&rel=0"
+    allow="autoplay; encrypted-media"
+    frameborder="0"
+    style="
+        position:fixed;
+        width:1px;
+        height:1px;
+        left:-10px;
+        bottom:-10px;
+        opacity:0.01;
+        pointer-events:none;
+    ">
+</iframe>
+
+
+<div class="container">
+
+    <!-- =====================
+         HEADER
+    ====================== -->
+
+    <header class="header">
+
+        <div class="logo">
+            🏴‍☠️ LIPID PIRATES
+        </div>
+
+        <div class="subtitle">
+            ⚗️ HÓA HỌC 12 – CHUYÊN ĐỀ LIPID
+        </div>
+
+    </header>
+
+
+    <!-- =====================
+         START SCREEN
+    ====================== -->
+
+    <section
+        id="start"
+        class="start panel">
+
+        <h2>
+            ⚔️ CUỘC CHIẾN HẢI TẶC LIPID ⚔️
+        </h2>
+
+        <p>
+            Thuyền trưởng ơi! 🌊<br>
+            Hãy trả lời đúng các câu hỏi Hóa học
+            để bắn chìm tàu đối thủ!
+        </p>
+
+        <p>
+            💡 <b>Đặc biệt:</b> Khi bạn chọn số câu,
+            nhạc <b>Pirate Dojo</b> sẽ được bật ngay.
+        </p>
+
+        <div class="buttons">
+
+            <button
+                class="btn green"
+                onclick="startGame(10)">
+
+                ⚔️ 10 CÂU
+
+            </button>
+
+            <button
+                class="btn blue"
+                onclick="startGame(15)">
+
+                ⚔️ 15 CÂU
+
+            </button>
+
+            <button
+                class="btn red"
+                onclick="startGame(20)">
+
+                ☠️ 20 CÂU
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================
+         GAME
+    ====================== -->
+
+    <section
+        id="game"
+        class="game hidden">
+
+
+        <!-- HP -->
+
+        <div class="status">
+
+            <div class="statusBox">
+
+                <div class="statusTitle">
+
+                    <span>
+                        🏴‍☠️ TÀU CỦA BẠN
+                    </span>
+
+                    <span id="playerHpText">
+                        100 HP
+                    </span>
+
+                </div>
+
+                <div class="hpBar">
+
+                    <div
+                        id="playerHp"
+                        class="hpFill">
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="statusBox">
+
+                <div class="statusTitle">
+
+                    <span>
+                        ☠️ TÀU ĐỐI THỦ
+                    </span>
+
+                    <span id="enemyHpText">
+                        100 HP
+                    </span>
+
+                </div>
+
+                <div class="hpBar">
+
+                    <div
+                        id="enemyHp"
+                        class="hpFill enemyFill">
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ARENA -->
+
+        <div
+            id="arena"
+            class="arena">
+
+            <!-- PLAYER SHIP -->
+
+            <div
+                id="playerShip"
+                class="ship player">
+
+                <div class="mast"></div>
+
+                <div class="flag"></div>
+
+                <div class="sail"></div>
+
+                <div class="shipDeck"></div>
+
+                <div class="shipBody">
+
+                    <div class="cannon"></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ENEMY SHIP -->
+
+            <div
+                id="enemyShip"
+                class="ship enemy">
+
+                <div class="mast"></div>
+
+                <div class="flag"></div>
+
+                <div class="sail"></div>
+
+                <div class="shipDeck"></div>
+
+                <div class="shipBody">
+
+                    <div class="cannon"></div>
+
+                </div>
+
+            </div>
+
+            <div class="oceanFoam"></div>
+
+        </div>
+
+
+        <!-- QUESTION -->
+
+        <div class="questionPanel panel">
+
+            <div
+                id="questionNumber"
+                class="questionNumber">
+            </div>
+
+            <div
+                id="question"
+                class="question">
+            </div>
+
+            <div
+                id="answers"
+                class="answers">
+            </div>
+
+
+            <!-- EXPLANATION -->
+
+            <div
+                id="explain"
+                class="explain hidden">
+            </div>
+
+
+            <!-- NEXT -->
+
+            <div class="nextArea">
+
+                <button
+                    id="nextBtn"
+                    class="btn nextBtn hidden"
+                    onclick="nextQuestion()">
+
+                    ➡️ TIẾP THEO
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- RESET -->
+
+        <div class="buttons">
+
+            <button
+                class="btn"
+                onclick="resetGame()">
+
+                ↻ CHƠI LẠI
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================
+         RESULT
+    ====================== -->
+
+    <section
+        id="result"
+        class="result panel hidden">
+
+        <div
+            id="resultTitle"
+            class="resultTitle">
+        </div>
+
+        <div
+            id="resultText"
+            class="resultText">
+        </div>
+
+        <div
+            id="finalScore"
+            class="score">
+        </div>
+
+        <div class="buttons">
+
+            <button
+                class="btn green"
+                onclick="showStart()">
+
+                🏴‍☠️ CHƠI LẠI
+
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <div class="footer">
+        ⚗️ LIPID PIRATES – HÓA HỌC 12 ⚗️
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   YOUTUBE MUSIC
+===================================================== */
+
+let ytPlayer = null;
+let ytReady = false;
+
+let musicRequested = false;
+
+
+/*
+   YouTube gọi hàm này khi API đã tải xong.
+*/
+
+function onYouTubeIframeAPIReady(){
+
+    ytPlayer = new YT.Player(
+        "musicPlayer",
+        {
+
+            events:{
+
+                onReady:function(event){
+
+                    ytReady = true;
+
+                    /*
+                       Người chơi có thể đã bấm
+                       10/15/20 câu trước khi API tải xong.
+
+                       Vì vậy khi API sẵn sàng,
+                       nếu musicRequested = true
+                       thì phát ngay.
+                    */
+
+                    if(musicRequested){
+
+                        event.target.unMute();
+
+                        event.target.setVolume(100);
+
+                        event.target.playVideo();
+
+                    }
+
+                }
+
+            }
+
+        }
+    );
+
+}
+
+
+/*
+   Tải YouTube IFrame API
+*/
+
+const youtubeScript =
+    document.createElement("script");
+
+youtubeScript.src =
+    "https://www.youtube.com/iframe_api";
+
+youtubeScript.async = true;
+
+document.head.appendChild(youtubeScript);
+
+
+/*
+   BẬT NHẠC
+*/
+
+function startMusic(){
+
+    /*
+       Quan trọng:
+       Hàm này được gọi trực tiếp từ
+       nút 10 / 15 / 20 câu.
+    */
+
+    musicRequested = true;
+
+
+    if(
+        ytReady &&
+        ytPlayer
+    ){
+
+        ytPlayer.unMute();
+
+        ytPlayer.setVolume(100);
+
+        ytPlayer.playVideo();
+
+    }
+
+}
+
+
+/*
+   DỪNG NHẠC
+*/
+
+function stopMusic(){
+
+    musicRequested = false;
+
+    if(
+        ytReady &&
+        ytPlayer
+    ){
+
+        ytPlayer.pauseVideo();
+
+    }
+
+}
+
+
+/* =====================================================
+   QUESTION BANK
+===================================================== */
+
+const BANK = [
+
+{
+    q:"Lipid là những hợp chất hữu cơ có đặc điểm nào sau đây?",
+    a:[
+        "Tan nhiều trong nước",
+        "Không tan trong nước, tan trong dung môi hữu cơ",
+        "Chỉ tan trong acid",
+        "Chỉ tan trong base"
+    ],
+    c:1,
+    e:"Lipid là các hợp chất hữu cơ có trong tế bào sống, không tan trong nước nhưng tan trong các dung môi hữu cơ."
+},
+
+{
+    q:"Chất béo thuộc loại hợp chất nào?",
+    a:[
+        "Triester của glycerol và acid béo",
+        "Diester của ethanol",
+        "Muối của acid béo",
+        "Polymer của glucose"
+    ],
+    c:0,
+    e:"Chất béo là triester của glycerol với các acid béo, thường gọi là triglyceride."
+},
+
+{
+    q:"Acid béo thường là các acid carboxylic có đặc điểm nào?",
+    a:[
+        "Mạch rất ngắn và phân nhánh",
+        "Mạch carbon dài, không phân nhánh",
+        "Luôn chứa vòng benzene",
+        "Luôn chứa nhóm –OH"
+    ],
+    c:1,
+    e:"Acid béo thường là các acid monocarboxylic có mạch carbon dài, không phân nhánh."
+},
+
+{
+    q:"Công thức của palmitic acid là:",
+    a:[
+        "CH3[CH2]14COOH",
+        "CH3[CH2]16COOH",
+        "CH3[CH2]7CH=CH[CH2]7COOH",
+        "CH3[CH2]4CH=CHCH2CH=CH[CH2]7COOH"
+    ],
+    c:0,
+    e:"Palmitic acid có công thức CH3[CH2]14COOH."
+},
+
+{
+    q:"Công thức của stearic acid là:",
+    a:[
+        "CH3[CH2]14COOH",
+        "CH3[CH2]16COOH",
+        "CH3[CH2]7CH=CH[CH2]7COOH",
+        "CH3COOH"
+    ],
+    c:1,
+    e:"Stearic acid có công thức CH3[CH2]16COOH."
+},
+
+{
+    q:"Oleic acid thuộc loại acid béo nào?",
+    a:[
+        "No",
+        "Không no, có một liên kết đôi C=C",
+        "Không no, có ba liên kết đôi",
+        "Acid béo thơm"
+    ],
+    c:1,
+    e:"Oleic acid có một liên kết đôi C=C nên là acid béo không no, đơn không no."
+},
+
+{
+    q:"Linoleic acid có bao nhiêu liên kết đôi C=C?",
+    a:[
+        "Không có",
+        "Một",
+        "Hai",
+        "Ba"
+    ],
+    c:2,
+    e:"Linoleic acid có hai liên kết đôi C=C."
+},
+
+{
+    q:"Chất béo chứa nhiều gốc acid béo no thường có trạng thái nào ở nhiệt độ thường?",
+    a:[
+        "Thường rắn",
+        "Luôn ở thể khí",
+        "Luôn tan hoàn toàn trong nước",
+        "Luôn là chất khí"
+    ],
+    c:0,
+    e:"Chất béo chứa nhiều gốc acid béo no thường có nhiệt độ nóng chảy cao hơn và thường ở trạng thái rắn."
+},
+
+{
+    q:"Chất béo chứa nhiều gốc acid béo không no thường:",
+    a:[
+        "Có xu hướng ở thể lỏng",
+        "Luôn ở thể rắn",
+        "Tan hoàn toàn trong nước",
+        "Không thể bị hydrogen hóa"
+    ],
+    c:0,
+    e:"Nhiều gốc acid béo không no thường làm chất béo có nhiệt độ nóng chảy thấp và dễ ở thể lỏng."
+},
+
+{
+    q:"Chất béo có khối lượng riêng như thế nào so với nước?",
+    a:[
+        "Lớn hơn nước",
+        "Nhỏ hơn nước",
+        "Bằng nước",
+        "Luôn thay đổi thành khí"
+    ],
+    c:1,
+    e:"Chất béo nhẹ hơn nước nên khối lượng riêng thường nhỏ hơn nước."
+},
+
+{
+    q:"Chất béo có tan trong nước không?",
+    a:[
+        "Tan hoàn toàn",
+        "Tan ít nhưng luôn tạo dung dịch trong",
+        "Không tan",
+        "Chỉ tan khi đun sôi"
+    ],
+    c:2,
+    e:"Chất béo không tan trong nước."
+},
+
+{
+    q:"Trong phản ứng hydrogen hóa chất béo không no, chất được sử dụng là:",
+    a:[
+        "O2",
+        "H2",
+        "Cl2",
+        "CO2"
+    ],
+    c:1,
+    e:"Hydrogen hóa dùng H2, thường có xúc tác Ni và điều kiện nhiệt độ, áp suất thích hợp."
+},
+
+{
+    q:"Xúc tác thường dùng trong phản ứng hydrogen hóa dầu thực vật là:",
+    a:[
+        "Ni",
+        "NaCl",
+        "H2SO4",
+        "CaCO3"
+    ],
+    c:0,
+    e:"Nickel (Ni) là xúc tác thường được sử dụng trong quá trình hydrogen hóa dầu."
+},
+
+{
+    q:"Hydrogen hóa một phần dầu thực vật có thể tạo ra:",
+    a:[
+        "Chất béo rắn hơn",
+        "Glucose",
+        "Protein",
+        "Nước"
+    ],
+    c:0,
+    e:"Hydrogen hóa một phần các liên kết đôi có thể làm dầu thực vật chuyển thành chất béo có độ rắn cao hơn."
+},
+
+{
+    q:"Sự oxi hóa chất béo bởi oxygen trong không khí có thể gây ra hiện tượng:",
+    a:[
+        "Ôi khét",
+        "Kết tinh glucose",
+        "Tạo tinh bột",
+        "Tạo cellulose"
+    ],
+    c:0,
+    e:"Chất béo có thể bị oxi hóa bởi oxygen trong không khí, tạo các sản phẩm gây mùi và vị ôi khét."
+},
+
+{
+    q:"Một vai trò quan trọng của chất béo đối với cơ thể là:",
+    a:[
+        "Cung cấp và dự trữ năng lượng",
+        "Thay thế hoàn toàn protein",
+        "Là nguồn duy nhất tạo DNA",
+        "Làm dung môi chính của máu"
+    ],
+    c:0,
+    e:"Chất béo là nguồn năng lượng quan trọng và còn có vai trò dự trữ năng lượng."
+},
+
+{
+    q:"Các vitamin tan trong chất béo gồm:",
+    a:[
+        "A, D, E, K",
+        "B, C",
+        "B1, B2, B6",
+        "Chỉ có vitamin C"
+    ],
+    c:0,
+    e:"Các vitamin tan trong chất béo gồm A, D, E và K."
+},
+
+{
+    q:"Omega-3 và omega-6 được xác định vị trí liên kết đôi đầu tiên tính từ:",
+    a:[
+        "Đầu carboxyl",
+        "Đầu methyl",
+        "Carbonyl",
+        "Nhóm hydroxyl"
+    ],
+    c:1,
+    e:"Quy ước omega xác định vị trí liên kết đôi đầu tiên khi đếm từ đầu methyl của mạch carbon."
+},
+
+{
+    q:"Dầu cá thường giàu acid béo thuộc nhóm:",
+    a:[
+        "Omega-3",
+        "Omega-6",
+        "Acid béo no hoàn toàn",
+        "Acid acetic"
+    ],
+    c:0,
+    e:"Dầu cá thường giàu các acid béo omega-3."
+},
+
+{
+    q:"Dầu mè, dầu đậu nành và dầu hướng dương thường giàu acid béo:",
+    a:[
+        "Omega-6",
+        "Omega-3 duy nhất",
+        "Stearic acid duy nhất",
+        "Palmitic acid duy nhất"
+    ],
+    c:0,
+    e:"Dầu mè, dầu đậu nành và dầu hướng dương là những nguồn thường giàu acid béo omega-6."
+},
+
+{
+    q:"Phát biểu nào đúng về chất béo?",
+    a:[
+        "Chất béo tan tốt trong nước",
+        "Chất béo là triester của glycerol",
+        "Chất béo luôn chứa nhiều liên kết đôi",
+        "Chất béo là polymer"
+    ],
+    c:1,
+    e:"Chất béo là triester của glycerol với các acid béo."
+}
+
+];
+
+
+/* =====================================================
+   GAME STATE
+===================================================== */
+
+let total = 10;
+
+let questions = [];
+
+let index = 0;
+
+let playerHP = 100;
+
+let enemyHP = 100;
+
+let score = 0;
+
+let correct = 0;
+
+let locked = false;
+
+
+/* =====================================================
+   START GAME
+===================================================== */
+
+function startGame(number){
+
+    total = number;
+
+
+    /*
+       Xáo trộn câu hỏi
+    */
+
+    questions =
+        [...BANK]
+        .sort(
+            () => Math.random() - 0.5
+        )
+        .slice(0,total);
+
+
+    index = 0;
+
+    playerHP = 100;
+
+    enemyHP = 100;
+
+    score = 0;
+
+    correct = 0;
+
+    locked = false;
+
+
+    document
+        .getElementById("start")
+        .classList
+        .add("hidden");
+
+
+    document
+        .getElementById("result")
+        .classList
+        .add("hidden");
+
+
+    document
+        .getElementById("game")
+        .classList
+        .remove("hidden");
+
+
+    updateHP();
+
+
+    /*
+       QUAN TRỌNG NHẤT:
+
+       Người chơi vừa click nút
+       10 / 15 / 20 câu.
+
+       startMusic() được gọi NGAY tại đây.
+    */
+
+    startMusic();
+
+
+    renderQuestion();
+
+}
+
+
+/* =====================================================
+   RENDER QUESTION
+===================================================== */
+
+function renderQuestion(){
+
+    locked = false;
+
+
+    const q =
+        questions[index];
+
+
+    document
+        .getElementById("questionNumber")
+        .textContent =
+        `⚔️ CÂU ${index + 1} / ${total}`;
+
+
+    document
+        .getElementById("question")
+        .textContent =
+        q.q;
+
+
+    const answers =
+        document.getElementById("answers");
+
+
+    answers.innerHTML = "";
+
+
+    q.a.forEach(
+        (text, i) => {
+
+            const button =
+                document.createElement("button");
+
+            button.className =
+                "answer";
+
+            button.textContent =
+                String.fromCharCode(65+i)
+                + ". "
+                + text;
+
+            button.onclick =
+                () =>
+                answerQuestion(
+                    i,
+                    button
+                );
+
+            answers.appendChild(button);
+
+        }
+    );
+
+
+    document
+        .getElementById("explain")
+        .classList
+        .add("hidden");
+
+
+    document
+        .getElementById("explain")
+        .innerHTML = "";
+
+
+    document
+        .getElementById("nextBtn")
+        .classList
+        .add("hidden");
+
+}
+
+
+/* =====================================================
+   ANSWER
+===================================================== */
+
+function answerQuestion(
+    choice,
+    button
+){
+
+    if(locked){
+        return;
+    }
+
+    locked = true;
+
+
+    const q =
+        questions[index];
+
+
+    const all =
+        document.querySelectorAll(
+            ".answer"
+        );
+
+
+    all.forEach(
+        b => b.classList.add(
+            "disabled"
+        )
+    );
+
+
+    const isCorrect =
+        choice === q.c;
+
+
+    if(isCorrect){
+
+        button.classList.add(
+            "correct"
+        );
+
+
+        correct++;
+
+        score += 100;
+
+
+        /*
+           Bắn trúng tàu địch
+        */
+
+        enemyHP =
+            Math.max(
+                0,
+                enemyHP - 20
+            );
+
+
+        fireCannon(
+            "player"
+        );
+
+
+    }else{
+
+        button.classList.add(
+            "wrong"
+        );
+
+
+        all[q.c].classList.add(
+            "correct"
+        );
+
+
+        /*
+           Người chơi bị bắn
+        */
+
+        playerHP =
+            Math.max(
+                0,
+                playerHP - 15
+            );
+
+
+        fireCannon(
+            "enemy"
+        );
+
+    }
+
+
+    updateHP();
+
+
+    showExplanation(
+        isCorrect,
+        q
+    );
+
+
+    if(
+        enemyHP <= 0 ||
+        playerHP <= 0
+    ){
+
+        setTimeout(
+            finishGame,
+            900
+        );
+
+    }else{
+
+        document
+            .getElementById("nextBtn")
+            .classList
+            .remove("hidden");
+
+    }
+
+}
+
+
+/* =====================================================
+   EXPLANATION
+===================================================== */
+
+function showExplanation(
+    isCorrect,
+    q
+){
+
+    const box =
+        document.getElementById(
+            "explain"
+        );
+
+
+    box.classList.remove(
+        "hidden"
+    );
+
+
+    if(isCorrect){
+
+        box.innerHTML = `
+
+            <div class="explainTitle">
+                🎯 CHÍNH XÁC!
+            </div>
+
+            <div>
+                💥 Bạn đã bắn trúng tàu đối thủ!
+            </div>
+
+            <div style="margin-top:8px">
+                💡 ${q.e}
+            </div>
+
+        `;
+
+    }else{
+
+        box.innerHTML = `
+
+            <div class="explainTitle">
+                ❌ CHƯA CHÍNH XÁC!
+            </div>
+
+            <div>
+                🔎 Đáp án đúng là:
+                <b>
+                    ${String.fromCharCode(65+q.c)}.
+                    ${q.a[q.c]}
+                </b>
+            </div>
+
+            <div style="margin-top:8px">
+                💡 ${q.e}
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+/* =====================================================
+   NEXT
+===================================================== */
+
+function nextQuestion(){
+
+    if(
+        enemyHP <= 0 ||
+        playerHP <= 0
+    ){
+
+        finishGame();
+
+        return;
+
+    }
+
+
+    index++;
+
+
+    if(index >= questions.length){
+
+        finishGame();
+
+        return;
+
+    }
+
+
+    renderQuestion();
+
+}
+
+
+/* =====================================================
+   HP
+===================================================== */
+
+function updateHP(){
+
+    document
+        .getElementById("playerHp")
+        .style.width =
+        playerHP + "%";
+
+
+    document
+        .getElementById("enemyHp")
+        .style.width =
+        enemyHP + "%";
+
+
+    document
+        .getElementById("playerHpText")
+        .textContent =
+        playerHP + " HP";
+
+
+    document
+        .getElementById("enemyHpText")
+        .textContent =
+        enemyHP + " HP";
+
+}
+
+
+/* =====================================================
+   CANNON
+===================================================== */
+
+function fireCannon(
+    side
+){
+
+    const arena =
+        document.getElementById(
+            "arena"
+        );
+
+
+    const ball =
+        document.createElement(
+            "div"
+        );
+
+
+    ball.className =
+        "cannonball";
+
+
+    arena.appendChild(ball);
+
+
+    const startLeft =
+        side === "player"
+            ? "23%"
+            : "77%";
+
+
+    const endLeft =
+        side === "player"
+            ? "77%"
+            : "23%";
+
+
+    ball.style.left =
+        startLeft;
+
+    ball.style.top =
+        "110px";
+
+
+    requestAnimationFrame(
+        () => {
+
+            ball.style.transition =
+                "left .65s linear, transform .65s linear";
+
+            ball.style.left =
+                endLeft;
+
+            ball.style.transform =
+                "translateY(10px)";
+
+        }
+    );
+
+
+    setTimeout(
+        () => {
+
+            const explosion =
+                document.createElement(
+                    "div"
+                );
+
+
+            explosion.className =
+                "explosion";
+
+
+            explosion.style.left =
+                endLeft;
+
+            explosion.style.top =
+                "75px";
+
+
+            arena.appendChild(
+                explosion
+            );
+
+
+            ball.remove();
+
+
+            setTimeout(
+                () => explosion.remove(),
+                600
+            );
+
+
+            if(side === "player"){
+
+                document
+                    .getElementById(
+                        "enemyShip"
+                    )
+                    .classList.add(
+                        "shake"
+                    );
+
+
+                setTimeout(
+                    () =>
+                    document
+                        .getElementById(
+                            "enemyShip"
+                        )
+                        .classList.remove(
+                            "shake"
+                        ),
+                    500
+                );
+
+            }else{
+
+                document
+                    .getElementById(
+                        "playerShip"
+                    )
+                    .classList.add(
+                        "shake"
+                    );
+
+
+                setTimeout(
+                    () =>
+                    document
+                        .getElementById(
+                            "playerShip"
+                        )
+                        .classList.remove(
+                            "shake"
+                        ),
+                    500
+                );
+
+            }
+
+        },
+        650
+    );
+
+}
+
+
+/* =====================================================
+   FINISH GAME
+===================================================== */
+
+function finishGame(){
+
+    stopMusic();
+
+
+    document
+        .getElementById("game")
+        .classList
+        .add("hidden");
+
+
+    document
+        .getElementById("result")
+        .classList
+        .remove("hidden");
+
+
+    const title =
+        document.getElementById(
+            "resultTitle"
+        );
+
+
+    const text =
+        document.getElementById(
+            "resultText"
+        );
+
+
+    if(playerHP <= 0){
+
+        title.textContent =
+            "☠️ TÀU BẠN BỊ ĐÁNH CHÌM!";
+
+        title.style.color =
+            "#c73535";
+
+
+        text.innerHTML = `
+
+            Cuộc chiến kết thúc!<br>
+
+            Bạn đã trả lời đúng
+            <b>${correct}/${total}</b> câu.
+
+        `;
+
+
+        boo();
+
+        booVoice();
+
+        defeatEffect();
+
+
+    }else if(enemyHP <= 0){
+
+        title.textContent =
+            "🏆 CHIẾN THẮNG!";
+
+        title.style.color =
+            "#16854a";
+
+
+        text.innerHTML = `
+
+            Tuyệt vời, thuyền trưởng! 🏴‍☠️<br>
+
+            Tàu đối thủ đã bị đánh chìm!
+
+            <br>
+
+            Bạn trả lời đúng
+            <b>${correct}/${total}</b> câu.
+
+        `;
+
+
+        applause();
+
+        victoryEffect();
+
+
+    }else{
+
+        title.textContent =
+            "⚔️ HOÀN THÀNH!";
+
+        title.style.color =
+            "#12618d";
+
+
+        text.innerHTML = `
+
+            Bạn đã hoàn thành ${total} câu hỏi!
+
+            <br>
+
+            Đúng:
+            <b>${correct}/${total}</b>
+
+        `;
+
+
+        applause();
+
+    }
+
+
+    document
+        .getElementById("finalScore")
+        .textContent =
+        `⭐ Điểm: ${score}`;
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetGame(){
+
+    stopMusic();
+
+
+    document
+        .getElementById("game")
+        .classList
+        .add("hidden");
+
+
+    document
+        .getElementById("result")
+        .classList
+        .add("hidden");
+
+
+    document
+        .getElementById("start")
+        .classList
+        .remove("hidden");
+
+}
+
+
+/* =====================================================
+   SHOW START
+===================================================== */
+
+function showStart(){
+
+    resetGame();
+
+}
+
+
+/* =====================================================
+   SOUND EFFECT - APPLAUSE
+===================================================== */
+
+function applause(){
+
+    try{
+
+        const ctx =
+            new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
+
+
+        const now =
+            ctx.currentTime;
+
+
+        for(
+            let i=0;
+            i<8;
+            i++
+        ){
+
+            const osc =
+                ctx.createOscillator();
+
+
+            const gain =
+                ctx.createGain();
+
+
+            osc.type =
+                "triangle";
+
+
+            osc.frequency.value =
+                500 + i*70;
+
+
+            gain.gain.setValueAtTime(
+                0,
+                now + i*.08
+            );
+
+
+            gain.gain.linearRampToValueAtTime(
+                .12,
+                now + i*.08 + .02
+            );
+
+
+            gain.gain.exponentialRampToValueAtTime(
+                .001,
+                now + i*.08 + .25
+            );
+
+
+            osc.connect(gain);
+
+            gain.connect(ctx.destination);
+
+
+            osc.start(
+                now + i*.08
+            );
+
+
+            osc.stop(
+                now + i*.08 + .3
+            );
+
+        }
+
+    }catch(e){}
+
+}
+
+
+/* =====================================================
+   BOO
+===================================================== */
+
+function boo(){
+
+    try{
+
+        const ctx =
+            new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
+
+
+        const osc =
+            ctx.createOscillator();
+
+
+        const gain =
+            ctx.createGain();
+
+
+        osc.type =
+            "sawtooth";
+
+
+        osc.frequency.setValueAtTime(
+            180,
+            ctx.currentTime
+        );
+
+
+        osc.frequency.exponentialRampToValueAtTime(
+            70,
+            ctx.currentTime + .7
+        );
+
+
+        gain.gain.setValueAtTime(
+            .001,
+            ctx.currentTime
+        );
+
+
+        gain.gain.linearRampToValueAtTime(
+            .2,
+            ctx.currentTime + .05
+        );
+
+
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            ctx.currentTime + .8
+        );
+
+
+        osc.connect(gain);
+
+        gain.connect(ctx.destination);
+
+
+        osc.start();
+
+        osc.stop(
+            ctx.currentTime + .8
+        );
+
+    }catch(e){}
+
+}
+
+
+/* =====================================================
+   BOO VOICE
+===================================================== */
+
+function booVoice(){
+
+    try{
+
+        if(
+            "speechSynthesis"
+            in window
+        ){
+
+            const voice =
+                new SpeechSynthesisUtterance(
+                    "Bùuuuuuu!"
+                );
+
+
+            voice.lang =
+                "vi-VN";
+
+
+            voice.rate =
+                .7;
+
+
+            voice.pitch =
+                .5;
+
+
+            window.speechSynthesis.speak(
+                voice
+            );
+
+        }
+
+    }catch(e){}
+
+}
+
+
+/* =====================================================
+   VICTORY EFFECT
+===================================================== */
+
+function victoryEffect(){
+
+    for(
+        let i=0;
+        i<100;
+        i++
+    ){
+
+        const c =
+            document.createElement(
+                "div"
+            );
+
+
+        c.className =
+            "confetti";
+
+
+        c.style.left =
+            Math.random()*100 + "vw";
+
+
+        c.style.animationDelay =
+            Math.random()*1.2 + "s";
+
+
+        c.style.transform =
+            `rotate(${Math.random()*360}deg)`;
+
+
+        document.body.appendChild(c);
+
+
+        setTimeout(
+            () => c.remove(),
+            3500
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   DEFEAT EFFECT
+===================================================== */
+
+function defeatEffect(){
+
+    const result =
+        document.getElementById(
+            "result"
+        );
+
+
+    result.classList.add(
+        "shake"
+    );
+
+
+    setTimeout(
+        () =>
+        result.classList.remove(
+            "shake"
+        ),
+        500
+    );
+
+}
+
+</script>
+
+</body>
+</html>
